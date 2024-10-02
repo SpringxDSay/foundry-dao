@@ -2,12 +2,12 @@
 
 pragma solidity ^0.8.19;
 
-import {Ownable} from '@openzeppelin/contracts/access/Ownable.sol';
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Box is Ownable {
     address private _owner;
-    
-    constructor() Ownable (msg.sender) {}
+
+    constructor() Ownable(msg.sender) {}
 
     uint256 private s_number;
 
@@ -18,7 +18,7 @@ contract Box is Ownable {
         emit NumberChanged(newNumber);
     }
 
-    function getNumber() external view returns(uint256) {
+    function getNumber() external view returns (uint256) {
         return s_number;
     }
 }

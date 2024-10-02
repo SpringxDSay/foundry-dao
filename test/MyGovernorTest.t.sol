@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.19;
 
-import {Test, console} from 'forge-std/Test.sol';
-import {MyGovernor} from '../src/MyGovernor.sol';
-import {TimeLock} from '../src/TimeLock.sol';
-import {Box} from '../src/Box.sol';
-import {GovToken} from '../src/GovToken.sol';
+import {Test, console} from "forge-std/Test.sol";
+import {MyGovernor} from "../src/MyGovernor.sol";
+import {TimeLock} from "../src/TimeLock.sol";
+import {Box} from "../src/Box.sol";
+import {GovToken} from "../src/GovToken.sol";
 
 contract MyGovernorTest is Test {
     MyGovernor governor;
@@ -36,7 +36,7 @@ contract MyGovernorTest is Test {
         console.log("Past Votes:", govToken.getPastVotes(USER, block.number - 1));
         console.log(govToken.balanceOf(USER));
 
-        timelock = new TimeLock(MIN_DELAY, proposers,executors);
+        timelock = new TimeLock(MIN_DELAY, proposers, executors);
         governor = new MyGovernor(govToken, timelock);
 
         bytes32 proposerRole = timelock.PROPOSER_ROLE();
@@ -68,21 +68,21 @@ contract MyGovernorTest is Test {
         uint256 proposalId = governor.propose(targets, values, calldatas, description);
 
         // View the state
-        console.log('Proposal State:', uint256(governor.state(proposalId)));
+        console.log("Proposal State:", uint256(governor.state(proposalId)));
 
         vm.warp(block.timestamp + VOTING_DELAY + 1);
         vm.roll(block.number + VOTING_DELAY + 1);
 
-        console.log('Proposal State:', uint256(governor.state(proposalId)));
+        console.log("Proposal State:", uint256(governor.state(proposalId)));
 
         // 2. Vote
-        string memory reason = 'coz blue frog is cool';
+        string memory reason = "coz blue frog is cool";
         uint8 voteWay = 1;
         vm.prank(USER);
         governor.castVoteWithReason(proposalId, voteWay, reason);
 
         vm.warp(block.timestamp + VOTING_PERIOD);
-        vm.roll(block.number + VOTING_PERIOD );
+        vm.roll(block.number + VOTING_PERIOD);
 
         // 3. Queue the tx before execution
         bytes32 descriptionHash = keccak256(abi.encodePacked(description));
